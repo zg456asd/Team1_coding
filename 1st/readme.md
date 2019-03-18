@@ -17,4 +17,5 @@
 - 处理数据
 - 选取带宽
 - 计算密度
+### 结果
 ![img](https://github.com/cuit201608/Team1_coding/blob/master/1st/screenshots/KDE.png)
