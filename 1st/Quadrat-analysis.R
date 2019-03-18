@@ -72,7 +72,7 @@ mean <- greatCount/ n
 ##
 fcSum <- 0
 for( i in 1:length(df2[,1])){
-  fcSum <- fcSum+(df2[1,1]-mean)**2
+  fcSum <- fcSum+(df2[i,2]-mean)**2
 }
 ## variance
 variance <- fcSum/(n-1)
