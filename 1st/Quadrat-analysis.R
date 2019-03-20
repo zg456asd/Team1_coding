@@ -1,40 +1,40 @@
 library(sp) 
 
 ## row col values 
-## ÉèÖÃÐÐÁÐµÄÖµ 
+## è®¾ç½®è¡Œåˆ—çš„å€¼ 
 rowValues <- 1:5
 colValues <- 1:14
 
 ## draw the polygons  
-## »­³ö¶à±ßÐÎ¸ñ×Ó
+## ç”»å‡ºå¤šè¾¹å½¢æ ¼å­
 tepList<- c()
 for(rowValue in rowValues){
   for(colValue in colValues){
     ## set the number of seat  
-    ## ÉèÖÃÃ¿Ò»¸ö¶à±ßÐÎµÄÊýÖµ
+    ## è®¾ç½®æ¯ä¸€ä¸ªå¤šè¾¹å½¢çš„æ•°å€¼
     seatNum <- (rowValue-1)*14+colValue
     ## draw island  
-    ## Í¨¹ýpolygonsº¯ÊýÀ´»­³öisland
+    ## é€šè¿‡polygonså‡½æ•°æ¥ç”»å‡ºisland
     Sr = Polygon(cbind(c(rowValue,rowValue,rowValue+1,rowValue+1,rowValue),c(colValue,colValue+1,colValue+1,colValue,colValue)))
-    ## ¸øÃ¿Ò»¸öisland±êÉÏ¶ÔÓ¦µÄid
+    ## ç»™æ¯ä¸€ä¸ªislandæ ‡ä¸Šå¯¹åº”çš„id
     Srs = Polygons(list(Sr),seatNum)
-    ## store ½«¶ÔÓ¦ºÃµÄpolygonsÊý¾Ý´æ´¢ÔÚÏòÁ¿ÖÐ
+    ## store å°†å¯¹åº”å¥½çš„polygonsæ•°æ®å­˜å‚¨åœ¨å‘é‡ä¸­
     tepList<-c(tepList,Srs)
   }
 }
 SpP=SpatialPolygons(tepList,70:1)
 
 ## add atrr  
-## Ìí¼ÓÊôÐÔÖµ
+## æ·»åŠ å±žæ€§å€¼
 ## import the data (seat.csv)   
-## µ¼Èëseat.csvÎÄ¼þµÄÊý¾Ý
+## å¯¼å…¥seat.csvæ–‡ä»¶çš„æ•°æ®
 mydata1 <- read.table( file = "D:/seat.csv", header = TRUE, sep = "," )
 
 ## select the gpa over 3.3   
-## Ñ¡¶¨GPAµÄÖµ
+## é€‰å®šGPAçš„å€¼
 goodGap<-3.3
 
-## ´æ´¢´óÓÚÕâ¸öGPAÖµµÄ×ùÎ»ÐÅÏ¢  É¸Ñ¡µôÊ¹ÓÃÈ±Ê¡ÖµµÄÊý¾Ý
+## å­˜å‚¨å¤§äºŽè¿™ä¸ªGPAå€¼çš„åº§ä½ä¿¡æ¯  ç­›é€‰æŽ‰ä½¿ç”¨ç¼ºçœå€¼çš„æ•°æ®
 great<-c()
 for (i in 1:length(mydata1[,2])){
   if(mydata1[i,2]>=goodGap && !is.na(mydata1[i,3]) ){
@@ -42,13 +42,12 @@ for (i in 1:length(mydata1[,2])){
   }
 }
 
-
 ## create a vector include 70 seats
 df <- data.frame(gpa=1:70,row.names =1:70)
 greatCount=0
 ## modify the value >3.3  ==1  <3.3  ==0
-## ´óÓÚµÈÓÚÉè¶¨ÖµµÄ ÖµÉèÎª1
-## Ð¡ÓÚÉè¶¨ÖµµÄ  ÖµÉèÎª0
+## å¤§äºŽç­‰äºŽè®¾å®šå€¼çš„ å€¼è®¾ä¸º1
+## å°äºŽè®¾å®šå€¼çš„  å€¼è®¾ä¸º0
 for(i in 1:length(df[,1])){
   if(rownames(df)[i] %in% great){
     df[i,1]<-1
@@ -57,28 +56,27 @@ for(i in 1:length(df[,1])){
     df[i,1]<-0
 }
 
-## ´´½¨¿Õ¼ä¶à±ßÐÎÊý¾ÝÖ¡Êý¾Ý
+## åˆ›å»ºç©ºé—´å¤šè¾¹å½¢æ•°æ®å¸§æ•°æ®
 ## modify the row's name
 SrDf = SpatialPolygonsDataFrame(SpP,df)
 as(SrDf, "data.frame")
-## »æÖÆÍø¸ñ
+## ç»˜åˆ¶ç½‘æ ¼
 ## draw
 spplot(SrDf)
 
-
 ## select sample and 
-## Ñ¡ÔñÑù·½  ÐÂ½¨Êý¾ÝÖ¡
+## é€‰æ‹©æ ·æ–¹  æ–°å»ºæ•°æ®å¸§
 df2<-data.frame(count=c(4,2,4,2,1,3))
 
 ## count the yangfang 
-## ¼ÆËãÑù·½Êý
+## è®¡ç®—æ ·æ–¹æ•°
 n <- length(df2[,"count"])
 
 ## av is the average of the yangfang
-## ¼ÆËãÆ½¾ùÖµ
+## è®¡ç®—å¹³å‡å€¼
 mean <- greatCount/ n 
 
-## ¼ÆËã·½²î
+## è®¡ç®—æ–¹å·®
 ## variance
 fcSum <- 0
 for( i in 1:length(df2[,1])){
