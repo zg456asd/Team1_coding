@@ -13,9 +13,6 @@ for(rowValue in rowValues){
     ## set the number of seat  
     ## 设置每一个多边形的数值
     seatNum <- (rowValue-1)*14+colValue
-    ## paste str and number   
-    ## 格式化成Sr1、Sr2...
-    seatNum = paste("Sr",seatNum,sep="") 
     ## draw island  
     ## 通过polygons函数来画出island
     Sr = Polygon(cbind(c(rowValue,rowValue,rowValue+1,rowValue+1,rowValue),c(colValue,colValue+1,colValue+1,colValue,colValue)))
@@ -41,19 +38,13 @@ goodGap<-3.3
 great<-c()
 for (i in 1:length(mydata1[,2])){
   if(mydata1[i,2]>=goodGap && !is.na(mydata1[i,3]) ){
-    great<-c(great,paste("Sr",mydata1[i,3],sep="") )
+    great<-c(great,mydata1[i,3] )
   }
 }
 
-## select what we need store in a vector  
-name<-c()
-for(value in 1:70){
-  seatNum = paste("Sr",value,sep="")
-  name<-c(name,seatNum)
-}
 
 ## create a vector include 70 seats
-df <- data.frame(gpa=1:70,row.names =name )
+df <- data.frame(gpa=1:70,row.names =1:70)
 greatCount=0
 ## modify the value >3.3  ==1  <3.3  ==0
 ## 大于等于设定值的 值设为1
@@ -77,11 +68,11 @@ spplot(SrDf)
 
 ## select sample and 
 ## 选择样方  新建数据帧
-df2<-data.frame(row.names <- c(1,2,3,4,5,6),count <- c(4,2,4,2,1,3))
+df2<-data.frame(count=c(4,2,4,2,1,3))
 
 ## count the yangfang 
 ## 计算样方数
-n <- length(df2[,1])
+n <- length(df2[,"count"])
 
 ## av is the average of the yangfang
 ## 计算平均值
@@ -91,7 +82,7 @@ mean <- greatCount/ n
 ## variance
 fcSum <- 0
 for( i in 1:length(df2[,1])){
-  fcSum <- fcSum +(df2[i,2]-mean)**2
+  fcSum <- fcSum +(df2[i,1]-mean)**2
 }
 variance <- fcSum/(n-1)
 

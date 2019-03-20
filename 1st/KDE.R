@@ -14,9 +14,6 @@ for(rowValue in rowValues){
   for(colValue in colValues){
     ## 设置每一个多边形的数值
     seatNum <- (rowValue-1)*14+colValue
-    ## paste str and number   
-    ## 格式化成Sr1、Sr2...
-    seatNum = paste("Sr",seatNum,sep="") 
     ## draw island
     ## 通过polygons函数来画出island
     Sr = Polygon(cbind(c(rowValue,rowValue,rowValue+1,rowValue+1,rowValue),c(colValue,colValue+1,colValue+1,colValue,colValue)))
@@ -45,18 +42,14 @@ goodGap<-3.3
 great<-c()
 for (i in 1:length(mydata1[,2])){
   if(mydata1[i,2]>=goodGap  && !is.na(mydata1[i,3]) ){
-    great<-c(great,paste("Sr",mydata1[i,3],sep="") )
+    great<-c(great,mydata1[i,3])
   }
 }
 ## select what we need store in a vector
-name<-c()
-for(value in 1:70){
-  seatNum = paste("Sr",value,sep="")
-  name<-c(name,seatNum)
-}
+
 
 ## create a vector include 70 seats
-df <- data.frame(gpa=1:70,row.names =name )
+df <- data.frame(gpa=1:70,row.names =1:70 )
 
 ## modify the row's name
 
